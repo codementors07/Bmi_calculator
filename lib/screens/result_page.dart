@@ -5,6 +5,18 @@ class ResultPage extends StatelessWidget {
 
   final double bmiResult;
 
+  String checkSatus() {
+    if (bmiResult < 18) {
+      return 'Under weight';
+    } else if (bmiResult > 18.5 && bmiResult < 24.9) {
+      return 'Normal';
+    } else if (bmiResult > 25 && bmiResult < 29.9) {
+      return 'Over weight';
+    } else {
+      return 'Obesity';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +38,7 @@ class ResultPage extends StatelessWidget {
             )),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey.shade900,
+        backgroundColor: const Color(0xff0a0c23),
         leading: IconButton(
             onPressed: () {
               print('onPressed');
@@ -43,7 +55,7 @@ class ResultPage extends StatelessWidget {
         margin: const EdgeInsets.only(top: 2.5),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 23),
         width: double.infinity,
-        color: Colors.blueGrey.shade900,
+        color: const Color(0xff0a0c23),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -61,7 +73,7 @@ class ResultPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 15),
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: Colors.grey.shade700,
+                  color: const Color(0xff1d2033),
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
                 children: [

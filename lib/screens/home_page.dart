@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_setup/screens/result_page.dart';
 
+import '../widgets/age_and_weight.dart';
+import '../widgets/gender_widget.dart';
+import '../widgets/sleder_widget.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -23,6 +27,11 @@ class _HomePageState extends State<HomePage> {
 
   //calculate you bmi
   double? bmiResult;
+
+  // #0a0c23 background color
+  // #8d8d99 icon color
+  // #1c2033 icon background cpolor
+  // #1d2033 container backgroud color
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             )),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey.shade900,
+        backgroundColor: const Color(0xff0a0c23),
         leading: IconButton(
             onPressed: () {
               print('onPressed');
@@ -67,7 +76,7 @@ class _HomePageState extends State<HomePage> {
           margin: const EdgeInsets.only(top: 2.5),
           padding: const EdgeInsets.symmetric(horizontal: 15),
           width: double.infinity,
-          color: Colors.blueGrey.shade900,
+          color: const Color(0xff0a0c23),
           child: Column(
             children: [
               //Gender Widget
@@ -76,75 +85,43 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    //male container
                     InkWell(
                       onTap: () {
-                        print('male selected');
                         setState(() {
                           gender = !gender;
                         });
                       },
-                      child: Container(
-                        height: 175,
-                        width: 175,
-                        color: Colors.grey.shade700,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.male,
-                              color:
-                                  gender == true ? Colors.white : Colors.grey,
-                              size: 70,
-                            ),
-                            Text(
-                              'male'.toUpperCase(),
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: gender == true
-                                      ? Colors.white
-                                      : Colors.grey,
-                                  fontWeight: FontWeight.w600),
-                            )
-                          ],
-                        ),
+                      child: GenderWidget(
+                        gender: gender,
+                        genderName: 'Male',
+                        icon: Icons.male,
+                        iconColors: gender == true ? Colors.white : Colors.grey,
+                        textColor: gender == true ? Colors.white : Colors.grey,
                       ),
                     ),
+
                     const SizedBox(
                       width: 10,
                     ),
+                    //female container
                     InkWell(
                       onTap: () {
-                        print('female selected');
                         setState(() {
                           gender = !gender;
                         });
                       },
-                      child: Container(
-                        height: 175,
-                        width: 175,
-                        color: Colors.grey.shade700,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.female,
-                              color:
-                                  gender == false ? Colors.white : Colors.grey,
-                              size: 70,
-                            ),
-                            Text(
-                              'female'.toUpperCase(),
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: gender == false
-                                      ? Colors.white
-                                      : Colors.grey,
-                                  fontWeight: FontWeight.w600),
-                            )
-                          ],
-                        ),
+                      child: GenderWidget(
+                        gender: gender,
+                        genderName: 'Female',
+                        icon: Icons.female,
+                        iconColors:
+                            gender == false ? Colors.white : Colors.grey,
+                        textColor: gender == false ? Colors.white : Colors.grey,
                       ),
                     ),
+
+                    //DRY (don't repeat yourself)
                   ],
                 ),
               ),
@@ -152,60 +129,16 @@ class _HomePageState extends State<HomePage> {
               //Gender widget end//
 
               //Height widget
-              Container(
-                height: 200,
-                width: double.infinity,
-                color: Colors.grey.shade700,
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Column(
-                  children: [
-                    Text(
-                      'height'.toUpperCase(),
-                      style: TextStyle(
-                          color: Colors.grey.shade400,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: .75),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: sliderValue.toStringAsFixed(2),
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 54,
-                              fontWeight: FontWeight.bold)),
-                      const TextSpan(
-                        text: '  ',
-                      ),
-                      TextSpan(
-                          text: 'cm',
-                          style: TextStyle(
-                              color: Colors.grey.shade400,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600)),
-                    ])),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Slider(
-                        activeColor: Colors.white,
-                        thumbColor: Colors.pink,
-                        // divisions: 10,
-                        // label: 'ahhaha',
-                        value: sliderValue,
-                        min: minValue,
-                        max: maxValue,
-                        onChanged: (value) {
-                          setState(() {
-                            sliderValue = value;
-                          });
-                        })
-                  ],
-                ),
+
+              SliderWidget(
+                sliderValue: sliderValue,
+                minValue: minValue,
+                maxValue: maxValue,
+                onChanged: (value) {
+                  setState(() {
+                    sliderValue = value;
+                  });
+                },
               ),
 
               //Height widget end...
@@ -217,177 +150,41 @@ class _HomePageState extends State<HomePage> {
               // Age and Weight widget
               Row(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    height: 175,
-                    width: 175,
-                    color: Colors.grey.shade700,
-                    child: Column(
-                      children: [
-                        Text(
-                          'Age'.toUpperCase(),
-                          style: TextStyle(
-                              color: Colors.grey.shade400,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          age.toString(),
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 48,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  age--;
-                                });
-                              },
-                              child: Container(
-                                height: 45,
-                                width: 45,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.grey,
-                                ),
-                                child: const Icon(
-                                  Icons.remove,
-                                  color: Colors.white,
-                                  size: 32,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-
-                            //on tap property accessible garaucha
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  age++;
-                                });
-                              },
-                              child: Container(
-                                height: 45,
-                                width: 45,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.grey,
-                                ),
-                                child: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 32,
-                                ),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
+                  AgeAndWeightWidget(
+                      title: 'Age',
+                      value: age,
+                      onTap1: () {
+                        setState(() {
+                          age--;
+                        });
+                      },
+                      onTap2: () {
+                        setState(() {
+                          age++;
+                        });
+                      }),
                   const SizedBox(
                     width: 10,
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    height: 175,
-                    width: 175,
-                    color: Colors.grey.shade700,
-                    child: Column(
-                      children: [
-                        Text(
-                          'Weight'.toUpperCase(),
-                          style: TextStyle(
-                              color: Colors.grey.shade400,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          '$weight',
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 48,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  weight = weight - 1.25;
-                                });
-                              },
-                              child: Container(
-                                height: 45,
-                                width: 45,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.grey,
-                                ),
-                                child: const Icon(
-                                  Icons.remove,
-                                  color: Colors.white,
-                                  size: 32,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  weight = weight + 1.25;
-                                });
-                              },
-                              child: Container(
-                                height: 45,
-                                width: 45,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.grey,
-                                ),
-                                child: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 32,
-                                ),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  )
+                  AgeAndWeightWidget(
+                      title: 'Weight',
+                      value: weight,
+                      onTap1: () {
+                        setState(() {
+                          weight = weight - 1.25;
+                        });
+                      },
+                      onTap2: () {
+                        setState(() {
+                          weight = weight + 1.25;
+                        });
+                      }),
                 ],
               ),
 
               const SizedBox(
                 height: 15,
               ),
-
-              // const SizedBox(
-              //   height: 15,
-              // ),
             ],
           ),
         ),
