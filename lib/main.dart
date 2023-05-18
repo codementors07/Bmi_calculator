@@ -15,8 +15,15 @@ class MyApp extends StatelessWidget {
       title: 'BMI Calculator',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
+          // to make our own theme
+          primarySwatch: Colors.red,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.black,
+            centerTitle: true,
+            titleTextStyle: TextStyle(fontSize: 24, color: Colors.white),
+          ),
+          dividerColor: Colors.amber,
+          fontFamily: 'Montserrat Alternates'),
       home: const HomePage(),
     );
   }
