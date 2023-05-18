@@ -18,8 +18,8 @@ class AgeAndWeightWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),
-      height: 175,
-      width: 175,
+      height: 185,
+      width: 185,
       color: const Color(0xff1d2033),
       child: Column(
         children: [

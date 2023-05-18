@@ -4,6 +4,7 @@ import 'package:flutter_setup/screens/result_page.dart';
 import '../widgets/age_and_weight.dart';
 import '../widgets/gender_widget.dart';
 import '../widgets/sleder_widget.dart';
+import 'widget_practice.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -70,6 +71,18 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.menu)),
         title: Text('Bmi Calculator'.toUpperCase()),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const MyWidget()));
+              },
+              icon: const Icon(
+                Icons.keyboard_arrow_right_outlined,
+                color: Colors.white,
+                size: 34,
+              ))
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -150,35 +163,40 @@ class _HomePageState extends State<HomePage> {
               // Age and Weight widget
               Row(
                 children: [
-                  AgeAndWeightWidget(
-                      title: 'Age',
-                      value: age,
-                      onTap1: () {
-                        setState(() {
-                          age--;
-                        });
-                      },
-                      onTap2: () {
-                        setState(() {
-                          age++;
-                        });
-                      }),
+                  Expanded(
+                    flex: 2,
+                    child: AgeAndWeightWidget(
+                        title: 'Age',
+                        value: age,
+                        onTap1: () {
+                          setState(() {
+                            age--;
+                          });
+                        },
+                        onTap2: () {
+                          setState(() {
+                            age++;
+                          });
+                        }),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),
-                  AgeAndWeightWidget(
-                      title: 'Weight',
-                      value: weight,
-                      onTap1: () {
-                        setState(() {
-                          weight = weight - 1.25;
-                        });
-                      },
-                      onTap2: () {
-                        setState(() {
-                          weight = weight + 1.25;
-                        });
-                      }),
+                  Expanded(
+                    child: AgeAndWeightWidget(
+                        title: 'Weight',
+                        value: weight,
+                        onTap1: () {
+                          setState(() {
+                            weight = weight - 1.25;
+                          });
+                        },
+                        onTap2: () {
+                          setState(() {
+                            weight = weight + 1.25;
+                          });
+                        }),
+                  ),
                 ],
               ),
 
